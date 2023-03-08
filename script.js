@@ -1,13 +1,12 @@
-// 1) Add basic math functions.
-// 2) Add 'operate' function that takes in an operator and two numbers and
-// then calls one of the above functions on the numbers.
+// - - - - - Query Selectors - - - - - //
+
+const displayValue = document.querySelector('.screen');
+const numBtns = document.querySelectorAll('.num-btn');
 
 
-// I've used an an object to map the operator string to its corresponding
-// math function because it seems cooler.
 
-// In the 'operate' function, we call the math function using the operator
-// string as the key to look up the corresponding function in the mathFunctions object.
+
+// - - - - - Math / Operator Functions - - - - - //
 
 const mathFunctions = {
     'add': (a, b) => a + b,
@@ -25,17 +24,15 @@ console.log(operate(5, 20, 'add'));
 
 
 
-
-// 3) Add the functions that populate the display when you click the number buttons. 
-// Store the ‘display value’ in a variable somewhere for use in the next step.
-
-const displayValue = document.querySelector('.screen');
-const numBtns = document.querySelectorAll('.num-btn');
+// - - - - - Display Functions - - - - - //
 
 function showValue(value) {
     displayValue.innerText += value;
 }
 
+
+
+// - - - - - Event Listeners - - - - - //
 
 numBtns.forEach(btn => {
     btn.addEventListener('click', () => {
