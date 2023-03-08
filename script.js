@@ -3,6 +3,9 @@
 const displayValue = document.querySelector('.screen');
 const numBtns = document.querySelectorAll('.num-btn');
 const allClearBtn = document.querySelector('.ac-btn');
+const equalsBtn = document.querySelector('.equals-btn');
+const opBtns = document.querySelectorAll('.op-btn');
+
 
 
 
@@ -24,10 +27,36 @@ console.log(operate(5, 20, 'add'));
 
 
 
+// - - - - - Do Calculator Stuff - - - - - //
+
+let firstNum = null;
+let operation = null;
+
+function handleOperatorClick(operator) {
+    firstNum = parseInt(displayValue.innerText);
+    console.log(firstNum);
+    operation = operator;
+    console.log(operation)
+    clearDisplay();
+}
+
+function handleEqualsClick() {
+    const secondNum = parseInt(displayValue.innerText);
+    const result = operate(firstNum, secondNum, operation);
+    updateDisplay(result);
+    console.log(result);
+}
+
+
+
 // - - - - - Display Functions - - - - - //
 
 function showValue(value) {
     displayValue.innerText += value;
+}
+
+function updateDisplay(value) {
+    displayValue.innerText = value;
 }
 
 function clearDisplay() {
@@ -44,5 +73,12 @@ numBtns.forEach(btn => {
     })
 });
 
+opBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        handleOperatorClick(btn.value);
+    })
+})
 
 allClearBtn.addEventListener('click', clearDisplay);
+
+equalsBtn.addEventListener('click', handleEqualsClick);
