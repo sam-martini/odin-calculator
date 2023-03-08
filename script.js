@@ -2,7 +2,7 @@
 
 const displayValue = document.querySelector('.screen');
 const numBtns = document.querySelectorAll('.num-btn');
-
+const allClearBtn = document.querySelector('.ac-btn');
 
 
 
@@ -30,6 +30,10 @@ function showValue(value) {
     displayValue.innerText += value;
 }
 
+function clearDisplay() {
+    displayValue.innerText = '';
+}
+
 
 
 // - - - - - Event Listeners - - - - - //
@@ -39,3 +43,6 @@ numBtns.forEach(btn => {
         showValue(btn.value);
     })
 });
+
+
+allClearBtn.addEventListener('click', clearDisplay);
