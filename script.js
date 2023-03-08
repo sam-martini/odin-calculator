@@ -22,3 +22,23 @@ function operate(a, b, operator) {
 
 
 console.log(operate(5, 20, 'add'));
+
+
+
+
+// 3) Add the functions that populate the display when you click the number buttons. 
+// Store the ‘display value’ in a variable somewhere for use in the next step.
+
+const displayValue = document.querySelector('.screen');
+const numBtns = document.querySelectorAll('.num-btn');
+
+function showValue(value) {
+    displayValue.innerText += value;
+}
+
+
+numBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        showValue(btn.value);
+    })
+});
