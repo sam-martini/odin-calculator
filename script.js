@@ -2,9 +2,15 @@
 
 const displayValue = document.querySelector('.screen');
 const numBtns = document.querySelectorAll('.num-btn');
-const allClearBtn = document.querySelector('.ac-btn');
-const equalsBtn = document.querySelector('.equals-btn');
 const opBtns = document.querySelectorAll('.op-btn');
+const equalsBtn = document.querySelector('.equals-btn');
+const allClearBtn = document.querySelector('.ac-btn');
+
+
+// - - - - - Global Variables - - - - - //
+
+let firstNum = null;
+let operation = null;
 
 
 
@@ -23,20 +29,11 @@ function operate(a, b, operator) {
 };
 
 
-console.log(operate(5, 20, 'add'));
-
-
-
 // - - - - - Do Calculator Stuff - - - - - //
-
-let firstNum = null;
-let operation = null;
 
 function handleOperatorClick(operator) {
     firstNum = parseInt(displayValue.innerText);
-    console.log(firstNum);
     operation = operator;
-    console.log(operation)
     clearDisplay();
 }
 
@@ -44,7 +41,6 @@ function handleEqualsClick() {
     const secondNum = parseInt(displayValue.innerText);
     const result = operate(firstNum, secondNum, operation);
     updateDisplay(result);
-    console.log(result);
 }
 
 
