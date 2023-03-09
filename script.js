@@ -1,6 +1,6 @@
 // - - - - - Query Selectors - - - - - //
 
-const displayValue = document.querySelector('.screen');
+const screenValue = document.querySelector('.screen');
 const numBtns = document.querySelectorAll('.num-btn');
 const opBtns = document.querySelectorAll('.op-btn');
 const equalsBtn = document.querySelector('.equals-btn');
@@ -9,11 +9,13 @@ const allClearBtn = document.querySelector('.ac-btn');
 
 // - - - - - Global Variables - - - - - //
 
+let hasResult = false;
+
+
+
+
 let firstNum = null;
 let operation = null;
-
-
-
 
 // - - - - - Math / Operator Functions - - - - - //
 
@@ -32,15 +34,16 @@ function operate(a, b, operator) {
 // - - - - - Do Calculator Stuff - - - - - //
 
 function handleOperatorClick(operator) {
-    firstNum = parseInt(displayValue.innerText);
+    firstNum = parseInt(screenValue.innerText);
     operation = operator;
     clearDisplay();
 }
 
 function handleEqualsClick() {
-    const secondNum = parseInt(displayValue.innerText);
+    const secondNum = parseInt(screenValue.innerText);
     const result = operate(firstNum, secondNum, operation);
     updateDisplay(result);
+    hasResult = true;
 }
 
 
@@ -48,17 +51,28 @@ function handleEqualsClick() {
 // - - - - - Display Functions - - - - - //
 
 function showValue(value) {
-    displayValue.innerText += value;
+    checkResult();
+    screenValue.innerText += value;
 }
 
 function updateDisplay(value) {
-    displayValue.innerText = value;
+    screenValue.innerText = value;
 }
 
 function clearDisplay() {
-    displayValue.innerText = '';
+    screenValue.innerText = '';
 }
 
+
+
+
+
+function checkResult() {
+    if (hasResult) {
+        hasResult = false;
+        clearDisplay();
+    }
+}
 
 
 // - - - - - Event Listeners - - - - - //
