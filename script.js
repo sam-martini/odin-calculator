@@ -5,6 +5,16 @@
 // - - - - - Global Variables - - - - - //
 
 
+// - - - - - Calculator Object - - - - - //
+// Create a calculator object that keeps track of everything to construct a valid expression.
+const calculator = {
+    screenValue: '0',
+    firstNum: null,
+    waitingForSecondNum: false,
+    operator: null,
+};
+
+
 
 // - - - - - Math / Operator Functions - - - - - //
 
