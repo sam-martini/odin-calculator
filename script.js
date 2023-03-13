@@ -16,13 +16,18 @@ const calculator = {
     screenValue: '',
     firstNum: null,
     waitingForSecondNum: false,
-    operator: null,
+    operation: null,
 };
 
 
 
 function inputDigit(digit) {
-    calculator.screenValue += digit;
+    if (calculator.waitingForSecondNum) {
+        calculator.screenValue = digit;
+        calculator.waitingForSecondNum = false;
+    } else {
+        calculator.screenValue += digit;
+    }
     console.log(calculator);
 }
 
@@ -33,14 +38,42 @@ function inputDecimal(decimal) {
     }
 }
 
+function handleOperator(nextOperator) {
+    const { firstNum, screenValue, operation } = calculator;
+    const inputValue = parseFloat(screenValue);
+    if (firstNum === null) {
+        calculator.firstNum = inputValue;
+    } else if (operation) {
+        const result = operate(firstNum, inputValue, operation);
+        calculator.screenValue = String(result);
+        updateDisplay();
+        calculator.firstNum = result;
+    }
+    calculator.waitingForSecondNum = true;
+    calculator.operation = nextOperator;
+    console.log(calculator);
+}
+
+function handleEquals() {
+    // SHEEEEEESH
+
+    /*const { firstNum, screenValue, operation } = calculator;
+    const inputValue = parseFloat(screenValue);
+    const result = operate(firstNum, inputValue, operation);
+    calculator.screenValue = String(result);
+    updateDisplay();
+    calculator.waitingForSecondNum = true;
+    console.log(calculator)*/
+}
+
 
 // - - - - - Math / Operator Functions - - - - - //
 
 const mathFunctions = {
-    'add': (a, b) => a + b,
-    'subtract': (a, b) => a - b,
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
     'divide': (a, b) => a / b,
-    'multiply': (a, b) => a * b
+    'x': (a, b) => a * b
 };
 
 function operate(a, b, operator) {
@@ -75,3 +108,11 @@ decimalBtn.addEventListener('click', (e) => {
     inputDecimal(e.target.value);
     updateDisplay();
 })
+
+opBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        handleOperator(btn.value);
+    })
+})
+
+equalsBtn.addEventListener('click', handleEquals);
