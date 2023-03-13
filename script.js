@@ -1,6 +1,10 @@
 // - - - - - Query Selectors - - - - - //
-
-
+const numBtns = document.querySelectorAll('[data-number]');
+const opBtns = document.querySelectorAll('[data-operation]');
+const equalsBtn = document.querySelector('[data-equals]');
+const clearBtn = document.querySelector('[data-clear]');
+const allClearBtn = document.querySelector('[data-all-clear]');
+const screenValue = document.querySelector('[data-screen-value]');
 
 // - - - - - Global Variables - - - - - //
 
@@ -31,8 +35,6 @@ function operate(a, b, operator) {
 
 
 // - - - - - Do Calculator Stuff - - - - - //
-
-
 
 
 
