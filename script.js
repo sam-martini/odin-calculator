@@ -16,12 +16,28 @@ const calculator = {
     screenValue: '',
     firstNum: null,
     waitingForSecondNum: false,
+    holdingResult: false,
     operation: null,
 };
+
+function allClear() {
+    calculator.screenValue = '';
+    calculator.firstNum = null;
+    calculator.waitingForSecondNum = false;
+    calculator.holdingResult = false;
+    calculator.operation = null;
+}
+
+function checkForResult() {
+    if (calculator.holdingResult) {
+        allClear();
+    }
+}
 
 
 
 function inputDigit(digit) {
+    checkForResult();
     if (calculator.waitingForSecondNum) {
         calculator.screenValue = digit;
         calculator.waitingForSecondNum = false;
@@ -39,10 +55,12 @@ function inputDecimal(decimal) {
 }
 
 function handleOperator(nextOperator) {
-    const { firstNum, screenValue, operation } = calculator;
+    const { firstNum, screenValue, operation, holdingResult } = calculator;
     const inputValue = parseFloat(screenValue);
     if (firstNum === null) {
         calculator.firstNum = inputValue;
+    } else if (holdingResult) {
+        calculator.holdingResult = false;
     } else if (operation) {
         const result = operate(firstNum, inputValue, operation);
         calculator.screenValue = String(result);
@@ -55,15 +73,17 @@ function handleOperator(nextOperator) {
 }
 
 function handleEquals() {
-    // SHEEEEEESH
 
-    /*const { firstNum, screenValue, operation } = calculator;
+    const { firstNum, screenValue, operation } = calculator;
     const inputValue = parseFloat(screenValue);
     const result = operate(firstNum, inputValue, operation);
     calculator.screenValue = String(result);
     updateDisplay();
-    calculator.waitingForSecondNum = true;
-    console.log(calculator)*/
+
+    
+    calculator.firstNum = result;
+    calculator.holdingResult = true;
+    console.log(calculator)
 }
 
 
