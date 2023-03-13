@@ -136,3 +136,8 @@ opBtns.forEach(btn => {
 })
 
 equalsBtn.addEventListener('click', handleEquals);
+
+allClearBtn.addEventListener('click', () => {
+    allClear();
+    updateDisplay();
+});
