@@ -204,3 +204,27 @@ allClearBtn.addEventListener('click', () => {
     allClear();
     updateDisplay();
 });
+
+// - - - - - Keyboard Input - - - - - //
+
+document.addEventListener('keydown', (e) => {
+    let key = e.key;
+    // Check if key is a number or decimal point
+    if (!isNaN(key) || key === '.') {
+      inputDigit(key);
+      updateDisplay();
+    }
+    // Check if key is an operator
+    else if (key === '+' || key === '-' || key === '*' || key === '/') {
+      handleOperator(key);
+    }
+    // Check if key is the equals sign
+    else if (key === '=' || key === 'Enter') {
+      handleEquals();
+    }
+    // Check if key is the clear button
+    else if (key === 'Backspace') {
+      clearLastDigit();
+      updateDisplay();
+    }
+  });
