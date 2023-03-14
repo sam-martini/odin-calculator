@@ -94,7 +94,7 @@ body {
 
 
 .off-digits {
-    opacity: 10%;
+    opacity: 5%;
     mix-blend-mode: pass-through;
     background-color: #5AFFE2;
     position: absolute;
