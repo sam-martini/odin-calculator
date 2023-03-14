@@ -195,6 +195,21 @@ function clearLastDigit() {
     }
 }
 
+// Handle buttons style class.
+function animateOpbutton(btn) {
+    if (!calculator.firstNum) {
+        return;
+    }
+    removeActiveBtnClass();
+    btn.classList.add('active-btn');
+}
+
+function removeActiveBtnClass() {
+    opBtns.forEach(btn => {
+        btn.classList.remove('active-btn');
+    })
+}
+
 
 
 // - - - - - Event Listeners - - - - - //
@@ -214,11 +229,14 @@ decimalBtn.addEventListener('click', (e) => {
 opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         handleOperator(btn.value);
+        animateOpbutton(btn);
     })
 })
 
-equalsBtn.addEventListener('click', handleEquals);
-
+equalsBtn.addEventListener('click', () => {
+    handleEquals();
+    removeActiveBtnClass();
+})
 plusMinusBtn.addEventListener('click', () => {
     plusMinusNumber();
     updateDisplay();
