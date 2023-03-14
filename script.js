@@ -34,47 +34,49 @@ function allClear() {
 
 
 
-// - - - - - Handle Inputs - - - - - //
+// - - - - - Handle Number Inputs - - - - - //
 
 // Called when the user inputs a number.
-// Checks whether the calculator is waiting for a second number or not,
-// if it is, set the screen value to the input digit, and
-// if it isn't, it appends the input digit to the current screen value and makes sure 
-// it doesn't exceed 9 digits.
 function inputDigit(digit) {
+    // If user inputs number after equals, start fresh.
     checkForResult();
+    
     if (calculator.waitingForSecondNum) {
+        // If the calculator is waiting for a second number, set the screen value to the
+        // input digit and set the waiting for second number flag to false.
         calculator.screenValue = digit;
         calculator.waitingForSecondNum = false;
     } else if (calculator.screenValue.length < 9) {
+        // Append the input digit to the current screen value as long as the screen 
+        // value length is 9 or less.
         calculator.screenValue += digit;
     }
 }
 
 // Called when the user inputs a decimal.
-// First checks if the calculator is waiting for a second number, if so
-// it adds a 0 to the screen value to prevent it from adding a decimal to the previous number.
 // Only allows the user to add 1 decimal point.
 function inputDecimal(decimal) {
     if (calculator.waitingForSecondNum === true) {
+        // If the calculator is waiting for a second number, add 0 to the screen value to prevent
+        // it from adding to the previous number.
         calculator.screenValue = '0.'
         calculator.waitingForSecondNum = false;
         return
     }
+    // Prevent adding more than one decimal.
     if (!calculator.screenValue.includes(decimal)) {
         calculator.screenValue += decimal;
     }
 }
 
 function plusMinusNumber() {
-    // Bugs are here.
+    // Bugs are here :(
     let currentValue = parseFloat(calculator.screenValue);
     calculator.screenValue = `${-1 * currentValue}`;
     console.log(calculator);
 }
 
-// Checks whether a result is being held or not, if so, 
-// it calls the allClear function to reset the calculator to its initial state.
+
 // Used when the user inputs a number after a previous equation to start fresh.
 function checkForResult() {
     if (calculator.holdingResult) {
@@ -101,45 +103,65 @@ function operate(a, b, operator) {
 
 // - - - - - Do Calculator Stuff - - - - - //
 
-// Called when the user inputs an operator.
-// First checks if there's a first number or not. If there isn't, 
-// it sets the screen value as the first number. If there is,
-// it checks whether or not the calculator is holding a previous result and sets the
-// holding result flag to false. It there is already an operator chosen, it 
-// performs the operation on the first number and the screen value using the operator and sets 
-// the display and first number to the result.
-// This function sets the input operation and sets the waiting for second number flag to true.
+// Called when the user inputs an operator. 
 function handleOperator(nextOperator) {
-    const { firstNum, screenValue, operation, holdingResult } = calculator;
-    
+    const { firstNum, screenValue, operation, waitingForSecondNum ,holdingResult } = calculator;
+    // Get the current screen value as a float number.
     const inputValue = parseFloat(screenValue);
+    
+    if (waitingForSecondNum && operation) {
+        // Update the operator and return without any calculations.
+        calculator.operation = nextOperator;
+        console.log(calculator);
+        return;
+    }
+    
+    if (isNaN(inputValue)) {
+        // If the current screen value is not a valid number, return without any calculations.
+        return;
+    }
+
     if (firstNum === null) {
+        // If there isn't already a first number, update it with the current screen value.
         calculator.firstNum = inputValue;
     } else if (holdingResult) {
+        // If there's a previous result, set the holding result flag to false.
         calculator.holdingResult = false;
     } else if (operation) {
+        // If there is an operation already set, perform the calculation based on the
+        // current screen value and operation and update the display.
         const result = operate(firstNum, inputValue, operation);
         calculator.screenValue = `${parseFloat(result.toFixed(2))}`;
         updateDisplay();
+        // Update the first number to the result.
         calculator.firstNum = result;
     }
-    calculator.waitingForSecondNum = true;
+    // Update the operator and set the waiting for second number flag to false.
     calculator.operation = nextOperator;
+    calculator.waitingForSecondNum = true;
+    console.log(calculator)
 }
 
+
+
 // Called when the user inputs equals. 
-// It performs the operation on the first number and the screen value and calls the function to
-// update the display.
-// It sets the first number to the result and sets the holding result flag to true.
 function handleEquals() {
-    const { firstNum, screenValue, operation } = calculator;
-    
+    const { firstNum, screenValue, operation, waitingForSecondNum, holdingResult } = calculator;
+    // Get the current screen value as a float number.
     const inputValue = parseFloat(screenValue);
+    
+    if (!firstNum || waitingForSecondNum || holdingResult) {
+        // Return without any calculations.
+        return;
+    }
+
+    // Perform the calculation based on the current screen value and update the display.
     const result = operate(firstNum, inputValue, operation);
     calculator.screenValue = `${parseFloat(result.toFixed(2))}`;
     updateDisplay();
-
+    // Update the first number to the result.
     calculator.firstNum = result;
+    // Set the holding result flag to true.
     calculator.holdingResult = true;
 }
 
@@ -152,6 +174,7 @@ function updateDisplay() {
     display.innerText = calculator.screenValue;
 }
 
+// Prevent the screen value to be more than 9 digits.
 function checkDisplayLength() {
     let currentValue = calculator.screenValue;
     if (currentValue.length > 9) {
@@ -160,8 +183,16 @@ function checkDisplayLength() {
 }
 
 function clearLastDigit() {
+    // Get the current screen value.
     let currentValue = calculator.screenValue;
+
+    // Preventing bugs :(
+    if (calculator.holdingResult || calculator.waitingForSecondNum) {
+        return;
+    }
+ 
     if (currentValue.length > 0) {
+        // If it's more than 0, remove the last digit and update the screen value.
         calculator.screenValue = currentValue.slice(0, -1);
     }
 }
