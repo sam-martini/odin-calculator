@@ -1,4 +1,5 @@
 // - - - - - Query Selectors - - - - - //
+
 const numBtns = document.querySelectorAll('[data-number]');
 const decimalBtn = document.querySelector('[data-decimal]');
 const opBtns = document.querySelectorAll('[data-operation]');
@@ -7,11 +8,12 @@ const clearBtn = document.querySelector('[data-clear]');
 const allClearBtn = document.querySelector('[data-all-clear]');
 const display = document.querySelector('[data-screen-display]');
 
-// - - - - - Global Variables - - - - - //
+
 
 
 // - - - - - Calculator Object - - - - - //
-// Create a calculator object that keeps track of everything to construct a valid expression.
+
+// A calculator object that keeps track of everything to construct a valid expression.
 const calculator = {
     screenValue: '',
     firstNum: null,
@@ -20,6 +22,7 @@ const calculator = {
     operation: null,
 };
 
+// Reset calculator to its initial state
 function allClear() {
     calculator.screenValue = '';
     calculator.firstNum = null;
@@ -28,14 +31,12 @@ function allClear() {
     calculator.operation = null;
 }
 
-function checkForResult() {
-    if (calculator.holdingResult) {
-        allClear();
-    }
-}
 
 
+// - - - - - Handle Inputs - - - - - //
 
+// Called when the user inputs a number.
+// First, checks if there's a result of a previous equation and if so, resets the calculator.
 function inputDigit(digit) {
     checkForResult();
     if (calculator.waitingForSecondNum) {
@@ -48,11 +49,41 @@ function inputDigit(digit) {
 }
 
 function inputDecimal(decimal) {
+    if (calculator.waitingForSecondNum === true) {
+        calculator.screenValue = '0.'
+        calculator.waitingForSecondNum = false;
+        return
+    }
     if (!calculator.screenValue.includes(decimal)) {
         calculator.screenValue += decimal;
         console.log(calculator);
     }
 }
+
+function checkForResult() {
+    if (calculator.holdingResult) {
+        allClear();
+    }
+}
+
+
+
+// - - - - - Math Functions - - - - - //
+
+const mathFunctions = {
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    'divide': (a, b) => a / b,
+    'x': (a, b) => a * b
+};
+
+function operate(a, b, operator) {
+    return mathFunctions[operator](a, b);
+};
+
+
+
+// - - - - - Do Calculator Stuff - - - - - //
 
 function handleOperator(nextOperator) {
     const { firstNum, screenValue, operation, holdingResult } = calculator;
@@ -73,42 +104,23 @@ function handleOperator(nextOperator) {
 }
 
 function handleEquals() {
-
     const { firstNum, screenValue, operation } = calculator;
     const inputValue = parseFloat(screenValue);
     const result = operate(firstNum, inputValue, operation);
     calculator.screenValue = String(result);
     updateDisplay();
 
-    
     calculator.firstNum = result;
     calculator.holdingResult = true;
     console.log(calculator)
 }
 
 
-// - - - - - Math / Operator Functions - - - - - //
-
-const mathFunctions = {
-    '+': (a, b) => a + b,
-    '-': (a, b) => a - b,
-    'divide': (a, b) => a / b,
-    'x': (a, b) => a * b
-};
-
-function operate(a, b, operator) {
-    return mathFunctions[operator](a, b);
-};
-
-
-// - - - - - Do Calculator Stuff - - - - - //
-
-
 
 // - - - - - Display Functions - - - - - //
 
 function updateDisplay() {
-    display.textContent = calculator.screenValue;
+    display.innerText = calculator.screenValue;
 }
 
 
