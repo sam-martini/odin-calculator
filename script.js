@@ -42,7 +42,7 @@ function inputDigit(digit) {
     if (calculator.waitingForSecondNum) {
         calculator.screenValue = digit;
         calculator.waitingForSecondNum = false;
-    } else {
+    } else if (calculator.screenValue.length < 9) {
         calculator.screenValue += digit;
     }
     console.log(calculator);
@@ -120,7 +120,15 @@ function handleEquals() {
 // - - - - - Display Functions - - - - - //
 
 function updateDisplay() {
+    checkDisplayLength();
     display.innerText = calculator.screenValue;
+}
+
+function checkDisplayLength() {
+    let currentValue = calculator.screenValue;
+    if (currentValue.length > 9) {
+        currentValue = currentValue.slice(0, 9);
+    }
 }
 
 
