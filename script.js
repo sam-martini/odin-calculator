@@ -4,6 +4,7 @@ const numBtns = document.querySelectorAll('[data-number]');
 const decimalBtn = document.querySelector('[data-decimal]');
 const opBtns = document.querySelectorAll('[data-operation]');
 const equalsBtn = document.querySelector('[data-equals]');
+const plusMinusBtn = document.querySelector('[data-plus-minus]');
 const clearBtn = document.querySelector('[data-clear]');
 const allClearBtn = document.querySelector('[data-all-clear]');
 const display = document.querySelector('[data-screen-display]');
@@ -58,6 +59,11 @@ function inputDecimal(decimal) {
         calculator.screenValue += decimal;
         console.log(calculator);
     }
+}
+
+function plusMinusNumber() {
+    let currentValue = parseFloat(calculator.screenValue);
+    calculator.screenValue = `${-1 * currentValue}`;
 }
 
 function checkForResult() {
@@ -131,7 +137,12 @@ function checkDisplayLength() {
     }
 }
 
-
+function clearLastDigit() {
+    let currentValue = calculator.screenValue;
+    if (currentValue.length > 0) {
+        calculator.screenValue = currentValue.slice(0, -1);
+    }
+}
 
 
 
@@ -156,6 +167,16 @@ opBtns.forEach(btn => {
 })
 
 equalsBtn.addEventListener('click', handleEquals);
+
+plusMinusBtn.addEventListener('click', () => {
+    plusMinusNumber();
+    updateDisplay();
+})
+
+clearBtn.addEventListener('click', () => {
+    clearLastDigit();
+    updateDisplay();
+})
 
 allClearBtn.addEventListener('click', () => {
     allClear();
