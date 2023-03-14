@@ -37,7 +37,10 @@ function allClear() {
 // - - - - - Handle Inputs - - - - - //
 
 // Called when the user inputs a number.
-// First, checks if there's a result of a previous equation and if so, resets the calculator.
+// Checks whether the calculator is waiting for a second number or not,
+// if it is, set the screen value to the input digit, and
+// if it isn't, it appends the input digit to the current screen value and makes sure 
+// it doesn't exceed 9 digits.
 function inputDigit(digit) {
     checkForResult();
     if (calculator.waitingForSecondNum) {
@@ -46,9 +49,12 @@ function inputDigit(digit) {
     } else if (calculator.screenValue.length < 9) {
         calculator.screenValue += digit;
     }
-    console.log(calculator);
 }
 
+// Called when the user inputs a decimal.
+// First checks if the calculator is waiting for a second number, if so
+// it adds a 0 to the screen value to prevent it from adding a decimal to the previous number.
+// Only allows the user to add 1 decimal point.
 function inputDecimal(decimal) {
     if (calculator.waitingForSecondNum === true) {
         calculator.screenValue = '0.'
@@ -57,15 +63,19 @@ function inputDecimal(decimal) {
     }
     if (!calculator.screenValue.includes(decimal)) {
         calculator.screenValue += decimal;
-        console.log(calculator);
     }
 }
 
 function plusMinusNumber() {
+    // Bugs are here.
     let currentValue = parseFloat(calculator.screenValue);
     calculator.screenValue = `${-1 * currentValue}`;
+    console.log(calculator);
 }
 
+// Checks whether a result is being held or not, if so, 
+// it calls the allClear function to reset the calculator to its initial state.
+// Used when the user inputs a number after a previous equation to start fresh.
 function checkForResult() {
     if (calculator.holdingResult) {
         allClear();
@@ -91,8 +101,17 @@ function operate(a, b, operator) {
 
 // - - - - - Do Calculator Stuff - - - - - //
 
+// Called when the user inputs an operator.
+// First checks if there's a first number or not. If there isn't, 
+// it sets the screen value as the first number. If there is,
+// it checks whether or not the calculator is holding a previous result and sets the
+// holding result flag to false. It there is already an operator chosen, it 
+// performs the operation on the first number and the screen value using the operator and sets 
+// the display and first number to the result.
+// This function sets the input operation and sets the waiting for second number flag to true.
 function handleOperator(nextOperator) {
     const { firstNum, screenValue, operation, holdingResult } = calculator;
+    
     const inputValue = parseFloat(screenValue);
     if (firstNum === null) {
         calculator.firstNum = inputValue;
@@ -106,11 +125,15 @@ function handleOperator(nextOperator) {
     }
     calculator.waitingForSecondNum = true;
     calculator.operation = nextOperator;
-    console.log(calculator);
 }
 
+// Called when the user inputs equals. 
+// It performs the operation on the first number and the screen value and calls the function to
+// update the display.
+// It sets the first number to the result and sets the holding result flag to true.
 function handleEquals() {
     const { firstNum, screenValue, operation } = calculator;
+    
     const inputValue = parseFloat(screenValue);
     const result = operate(firstNum, inputValue, operation);
     calculator.screenValue = `${parseFloat(result.toFixed(2))}`;
@@ -118,7 +141,6 @@ function handleEquals() {
 
     calculator.firstNum = result;
     calculator.holdingResult = true;
-    console.log(calculator)
 }
 
 
