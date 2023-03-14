@@ -15,7 +15,7 @@
 }
 
 body {
-    background-color: #cccac0;
+    background-color: #99b1e5;
 }
 
 
@@ -39,7 +39,7 @@ body {
 
     padding: 1.25rem;
 
-    border: .5rem solid #333333;
+    border: .5rem solid #3e274e;
     border-radius: 2.75rem;
 
     background-color: #e9b15e;
@@ -54,10 +54,10 @@ body {
     font-size: 2.5rem;
     margin-top: 1rem;
     
-    background-color: #274A4E;
+    background-color: #227d47;
     
     border-radius: 2.75%;
-    border: 8px solid #333333;
+    border: 8px solid #252731;
 
     font-family: 'DSEG', monospace;
     position: relative;
@@ -80,9 +80,9 @@ body {
     padding: 2rem;
 
     border-radius: 2%;
-    border: 8px solid #333333;
+    border: 8px solid #252731;
     
-    background-color: #4d4d4dfd;
+    background-color: #fffee6;
     box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.15),
                 inset 0 4px rgba(0, 0, 0, 0.5);
 }
@@ -116,7 +116,9 @@ body {
 button {
     border: transparent;
     font-size: 2rem;
-    color: #FFFFFF;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: #252731;
     border-radius: 25%;
     box-shadow: 0px 4.15px 4.15px rgba(0, 0, 0, 0.25),
                 inset 0px 2.07px 0px rgba(255, 255, 255, 0.8),
@@ -124,17 +126,19 @@ button {
 }
 
 .num-btn {
-    background-color: #343837;
+    background-color: #8fdab3;
     opacity: 90%;
 }
 
 .op-btn {
     background-image: radial-gradient(#70bbe3, #448ccb);
     background-color: #448ccb;
+    color: #FFFFFF;
 }
 
 .ac-btn {
     background-color: #D74E30;
+    color: #FFFFFF;
 }
 
 .clear-btn,
@@ -152,4 +156,7 @@ button {
 
 .active-btn {
     color: #D74E30;
+    box-shadow: inset 0px 4.15px 4.15px rgba(0, 0, 0, 0.25),
+    inset 0px 2.07px 0px rgba(255, 255, 255, 0.8),
+    inset 0px -2.07px 0px rgba(0, 0, 0, 0.5);
 }
