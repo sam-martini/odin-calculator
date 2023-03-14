@@ -30,6 +30,7 @@ function allClear() {
     calculator.waitingForSecondNum = false;
     calculator.holdingResult = false;
     calculator.operation = null;
+    removeActiveBtnClass();
 }
 
 
