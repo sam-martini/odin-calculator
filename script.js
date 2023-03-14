@@ -73,7 +73,7 @@ function checkForResult() {
 const mathFunctions = {
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
-    'divide': (a, b) => a / b,
+    '÷': (a, b) => a / b,
     'x': (a, b) => a * b
 };
 
@@ -94,7 +94,7 @@ function handleOperator(nextOperator) {
         calculator.holdingResult = false;
     } else if (operation) {
         const result = operate(firstNum, inputValue, operation);
-        calculator.screenValue = String(result);
+        calculator.screenValue = `${parseFloat(result.toFixed(2))}`;
         updateDisplay();
         calculator.firstNum = result;
     }
@@ -107,7 +107,7 @@ function handleEquals() {
     const { firstNum, screenValue, operation } = calculator;
     const inputValue = parseFloat(screenValue);
     const result = operate(firstNum, inputValue, operation);
-    calculator.screenValue = String(result);
+    calculator.screenValue = `${parseFloat(result.toFixed(2))}`;
     updateDisplay();
 
     calculator.firstNum = result;
