@@ -70,7 +70,7 @@ function inputDecimal(decimal) {
 }
 
 function plusMinusNumber() {
-    // Bugs are here :(
+    // Bugs here :(
     let currentValue = parseFloat(calculator.screenValue);
     calculator.screenValue = `${-1 * currentValue}`;
     console.log(calculator);
@@ -112,7 +112,6 @@ function handleOperator(nextOperator) {
     if (waitingForSecondNum && operation) {
         // Update the operator and return without any calculations.
         calculator.operation = nextOperator;
-        console.log(calculator);
         return;
     }
     
@@ -139,7 +138,6 @@ function handleOperator(nextOperator) {
     // Update the operator and set the waiting for second number flag to false.
     calculator.operation = nextOperator;
     calculator.waitingForSecondNum = true;
-    console.log(calculator)
 }
 
 
